@@ -1,0 +1,72 @@
+version: '3.2'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - type: volume
+        source: db_data
+        target: /var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+  wp1:
+    image: wordpress:5.6
+    volumes:
+      - type: volume
+        source: wp1_data
+        target: /var/www/html
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |-
+        define('WP_HOME', 'http://localhost:8000');
+        define('WP_SITEURL', 'http://localhost:8000');
+  wp2:
+    image: wordpress:5.6
+    volumes:
+      - type: volume
+        source: wp2_data
+        target: /var/www/html
+    ports:
+      - "8001:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |-
+        define('WP_HOME', 'http://localhost:8001');
+        define('WP_SITEURL', 'http://localhost:8001');
+  wp3:
+    image: wordpress:5.6
+    volumes:
+      - type: volume
+        source: wp3_data
+        target: /var/www/html
+    ports:
+      - "8002:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |-
+        define('WP_HOME', 'http://localhost:8002');
+        define('WP_SITEURL', 'http://localhost:8002');
+
+volumes:
+  db_data:
+  wp1_data:
+  wp2_data:
+  wp3_data:
